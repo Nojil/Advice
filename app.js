@@ -7,20 +7,18 @@ var db = require('./db/db');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+var login = require('./lib/login/index');
+var signup = require('./lib/signup/index');
+var dashboard = require('./lib/dashboard/index');
 
-app.get('/', function(req, res, next) {
-  res.send('Welcome to advice');
-});
-
+app.use(login);
+app.use(signup);
+app.use(dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
